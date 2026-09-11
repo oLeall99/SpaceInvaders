@@ -180,3 +180,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f943a17ec14074e489095ee11a075e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  speed: 8
+  useBoundaries: 1
+  minX: -10
+  maxX: 10
+  bulletPrefab: {fileID: 856715086059989837, guid: 23f5d98fe1de8aa4c8de8aa95e259039, type: 3}
+  firePoint: {fileID: 0}
+  bulletSpeed: 12
+  fireCooldown: 0.2

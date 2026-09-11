@@ -310,9 +310,14 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
-      outline: []
+      outline:
+      - - {x: 4.5, y: 5}
+        - {x: -4.5, y: 5}
+        - {x: -4.5, y: -1}
+        - {x: -4.5, y: -5}
+        - {x: 4.5, y: -5}
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: 0.025
       bones: []
       spriteID: 737e4af9195cfda499d4007b7d4c4984
       internalID: -1123178152
@@ -541,35 +546,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Space_invaders_17
-      rect:
-        serializedVersion: 2
-        x: 53
-        y: 0
-        width: 8
-        height: 4
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e807fa315745b9042a5aaf5f7085d3f5
-      internalID: 982402310
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Space_invaders_18
       rect:
         serializedVersion: 2
-        x: 67
+        x: 51
         y: 0
-        width: 8
-        height: 4
+        width: 26
+        height: 12
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

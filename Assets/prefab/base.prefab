@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4157136914843928742}
   - component: {fileID: 8104506530656198669}
-  - component: {fileID: 1307070483476468624}
   - component: {fileID: -407895085085027655}
   - component: {fileID: -4575553288669634929}
+  - component: {fileID: 8645726239158616871}
   m_Layer: 0
   m_Name: base
-  m_TagString: Untagged
+  m_TagString: Base
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -95,52 +95,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
---- !u!61 &1307070483476468624
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1831088999783195798}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.5625, y: 0.75}
-    newSize: {x: 1.5625, y: 0.75}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1.5625, y: 0.75}
-  m_EdgeRadius: 0
 --- !u!50 &-407895085085027655
 Rigidbody2D:
   serializedVersion: 5
@@ -190,3 +144,23 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8645726239158616871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831088999783195798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c5c2fc785c1b3b40abcc7a27957294e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::base_bunker
+  maxHealth: 4
+  damageSprites:
+  - {fileID: 1030712964, guid: ed2f00b4515d60549a39334c3919e386, type: 3}
+  - {fileID: 522085635, guid: ed2f00b4515d60549a39334c3919e386, type: 3}
+  - {fileID: -1978637683, guid: ed2f00b4515d60549a39334c3919e386, type: 3}
+  - {fileID: 2018843469, guid: ed2f00b4515d60549a39334c3919e386, type: 3}
+  animationStateName: 
+  destructionEffect: {fileID: 7817203487738209457, guid: ab173ccbef254874f90d6c0e473067b0, type: 3}
