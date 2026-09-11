@@ -146,6 +146,11 @@ public class invasor : MonoBehaviour
     private float motherShipTimer = 0f;
     private float nextMotherShipDelay = 25f;
 
+    [Header("Wave Progress & Scaling")]
+    public int currentWave = 1;
+    public bool isWaveTransition = false;
+    private Vector3 initialGridPosition;
+
     private void Awake()
     {
         if (Instance == null)
@@ -156,6 +161,11 @@ public class invasor : MonoBehaviour
 
     void Start()
     {
+        initialGridPosition = transform.position;
+        currentWave = 1;
+        currentScore = 0;
+        isGameOver = false;
+
         if (generateOnStart)
         {
             GenerateGrid();
@@ -168,6 +178,46 @@ public class invasor : MonoBehaviour
         {
             Debug.LogWarning("invasor: motherShipPrefab is NOT assigned in the Inspector! Please drag & drop the Nave Mãe prefab into the slot.");
         }
+    }
+
+    public void CheckWaveCleared()
+    {
+        if (isGameOver || isWaveTransition) return;
+
+        StartCoroutine(VerifyWaveClearedRoutine());
+    }
+
+    private System.Collections.IEnumerator VerifyWaveClearedRoutine()
+    {
+        yield return new WaitForEndOfFrame();
+
+        alien[] remainingAliens = GetComponentsInChildren<alien>();
+        if (remainingAliens == null || remainingAliens.Length == 0)
+        {
+            StartCoroutine(NextWaveRoutine());
+        }
+    }
+
+    private System.Collections.IEnumerator NextWaveRoutine()
+    {
+        isWaveTransition = true;
+
+        yield return new WaitForSeconds(0.5f);
+
+        currentWave++;
+
+        // Increase initial movement values by +0.2f for the next wave
+        stepDistanceX += 0.2f;
+        alienBulletSpeed += 0.2f;
+
+        yield return new WaitForSeconds(3.0f);
+
+        // Reset grid container position to original start and generate fresh wave
+        ClearGrid();
+        transform.position = initialGridPosition;
+        GenerateGrid();
+
+        isWaveTransition = false;
     }
 
     private void ResetMotherShipTimer()
@@ -476,6 +526,35 @@ public class invasor : MonoBehaviour
         }
     }
 
+    [Header("Game Over & Scene Flow")]
+    [Tooltip("Name of the title/menu scene to return to on Game Over (default: scene_01)")]
+    public string menuSceneName = "scene_01";
+
+    public bool isGameOver = false;
+
+    public void TriggerGameOver()
+    {
+        if (isGameOver) return;
+        isGameOver = true;
+
+        // Save last score to PlayerPrefs
+        PlayerPrefs.SetInt("LastScore", currentScore);
+        int highScore = PlayerPrefs.GetInt("HighScore", 0);
+        if (currentScore > highScore)
+        {
+            PlayerPrefs.SetInt("HighScore", currentScore);
+        }
+        PlayerPrefs.Save();
+
+        StartCoroutine(GameOverRoutine());
+    }
+
+    private System.Collections.IEnumerator GameOverRoutine()
+    {
+        yield return new WaitForSeconds(3.5f);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(menuSceneName);
+    }
+
     private void OnGUI()
     {
         // Display Score at bottom right corner if no Canvas UI text is assigned
@@ -490,6 +569,62 @@ public class invasor : MonoBehaviour
             float margin = 20f;
             Rect rect = new Rect(Screen.width - 220f - margin, Screen.height - 50f - margin, 220f, 50f);
             GUI.Label(rect, "Score: " + currentScore.ToString(), style);
+        }
+
+        // Display Wave Transition Banner
+        if (isWaveTransition && !isGameOver)
+        {
+            GUIStyle waveTitleStyle = new GUIStyle(GUI.skin.label);
+            waveTitleStyle.fontSize = 36;
+            waveTitleStyle.fontStyle = FontStyle.Bold;
+            waveTitleStyle.alignment = TextAnchor.MiddleCenter;
+            waveTitleStyle.normal.textColor = Color.green;
+
+            GUIStyle scoreStyle = new GUIStyle(GUI.skin.label);
+            scoreStyle.fontSize = 24;
+            scoreStyle.fontStyle = FontStyle.Bold;
+            scoreStyle.alignment = TextAnchor.MiddleCenter;
+            scoreStyle.normal.textColor = Color.yellow;
+
+            GUIStyle subStyle = new GUIStyle(GUI.skin.label);
+            subStyle.fontSize = 20;
+            subStyle.alignment = TextAnchor.MiddleCenter;
+            subStyle.normal.textColor = Color.white;
+
+            float centerX = Screen.width / 2f;
+            float centerY = Screen.height / 2f;
+
+            GUI.Label(new Rect(centerX - 250f, centerY - 60f, 500f, 50f), "ONDA " + (currentWave - 1) + " CONCLUÍDA!", waveTitleStyle);
+            GUI.Label(new Rect(centerX - 250f, centerY, 500f, 40f), "SCORE ATUAL: " + currentScore, scoreStyle);
+            GUI.Label(new Rect(centerX - 300f, centerY + 50f, 600f, 30f), "PREPARE-SE PARA A ONDA " + currentWave + " (+0.2 VELOCIDADE)...", subStyle);
+        }
+
+        // Display Game Over banner with Total Score when player loses
+        if (isGameOver)
+        {
+            GUIStyle gameOverStyle = new GUIStyle(GUI.skin.label);
+            gameOverStyle.fontSize = 42;
+            gameOverStyle.fontStyle = FontStyle.Bold;
+            gameOverStyle.alignment = TextAnchor.MiddleCenter;
+            gameOverStyle.normal.textColor = Color.red;
+
+            GUIStyle scoreStyle = new GUIStyle(GUI.skin.label);
+            scoreStyle.fontSize = 26;
+            scoreStyle.fontStyle = FontStyle.Bold;
+            scoreStyle.alignment = TextAnchor.MiddleCenter;
+            scoreStyle.normal.textColor = Color.yellow;
+
+            GUIStyle subStyle = new GUIStyle(GUI.skin.label);
+            subStyle.fontSize = 18;
+            subStyle.alignment = TextAnchor.MiddleCenter;
+            subStyle.normal.textColor = Color.white;
+
+            float centerX = Screen.width / 2f;
+            float centerY = Screen.height / 2f;
+
+            GUI.Label(new Rect(centerX - 200f, centerY - 60f, 400f, 50f), "GAME OVER", gameOverStyle);
+            GUI.Label(new Rect(centerX - 250f, centerY, 500f, 40f), "PONTUAÇÃO TOTAL: " + currentScore, scoreStyle);
+            GUI.Label(new Rect(centerX - 200f, centerY + 50f, 400f, 30f), "Retornando ao Menu...", subStyle);
         }
     }
 }

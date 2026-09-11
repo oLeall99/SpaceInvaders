@@ -84,6 +84,12 @@ public class player : MonoBehaviour
         if (currentLives <= 0)
         {
             Debug.Log("Player lost all lives! Game Over.");
+
+            if (invasor.Instance != null)
+            {
+                invasor.Instance.TriggerGameOver();
+            }
+
             Destroy(gameObject);
         }
     }
@@ -118,6 +124,31 @@ public class player : MonoBehaviour
     {
         HandleMovement();
         HandleShooting();
+        HandleMenuShortcut();
+    }
+
+    private void HandleMenuShortcut()
+    {
+        bool mPressed = false;
+
+#if ENABLE_INPUT_SYSTEM
+        var keyboard = Keyboard.current;
+        if (keyboard != null)
+        {
+            mPressed = keyboard.mKey.wasPressedThisFrame;
+        }
+#else
+        mPressed = Input.GetKeyDown(KeyCode.M);
+#endif
+
+        if (mPressed)
+        {
+            if (invasor.Instance != null)
+            {
+                invasor.Instance.currentScore = 0;
+            }
+            UnityEngine.SceneManagement.SceneManager.LoadScene("scene_01");
+        }
     }
 
     private void HandleMovement()

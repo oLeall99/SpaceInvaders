@@ -60,6 +60,7 @@ public class alien : MonoBehaviour
             if (invasor.Instance != null)
             {
                 invasor.Instance.AddScore(scoreValue);
+                invasor.Instance.CheckWaveCleared();
             }
 
             // 3. Spawn explosion animation prefab if available
